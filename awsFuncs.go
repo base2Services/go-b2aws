@@ -9,7 +9,7 @@ import (
 		"strconv"
 )
 
-func getRegions(accessKey string, secretKey string, client *http.Client) (regionMap map[string]string, err error) {
+func GetRegions(accessKey string, secretKey string, client *http.Client) (regionMap map[string]string, err error) {
 	regionMap = make(map[string]string)
 
 	var treq *http.Request
@@ -34,7 +34,7 @@ func getRegions(accessKey string, secretKey string, client *http.Client) (region
 	return 
 }
 
-func getS3Object(accessKey string, secretKey string, bucketObjectUrl string, client *http.Client) (body []byte, err error) {
+func GetS3Object(accessKey string, secretKey string, bucketObjectUrl string, client *http.Client) (body []byte, err error) {
 	treq, err := http.NewRequest("GET", bucketObjectUrl, nil)
 	if err != nil { return }
 	awscred := awsauth.Credentials{
@@ -50,7 +50,7 @@ func getS3Object(accessKey string, secretKey string, bucketObjectUrl string, cli
 	return 
 }
 
-func getInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter) (instanceList []Instance, err error) {
+func GetInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter) (instanceList []Instance, err error) {
 	instanceList = []Instance{}
 	var treq *http.Request
 	treq, err = http.NewRequest("GET", "https://"+regionEndpoint+"/?Action=DescribeInstances&Version=2014-06-15", nil)
@@ -74,7 +74,7 @@ func getInstances(accessKey string, secretKey string, regionEndpoint string, cli
 	return 
 }
 
-func multiInstancesURL(regionEndpoint string, action string, instanceIds ...string) (ourl string, err error) {
+func MultiInstancesURL(regionEndpoint string, action string, instanceIds ...string) (ourl string, err error) {
 	params := url.Values{}
 	params,err = url.ParseQuery("Action=" + action + "&Version=2014-06-15")
 	if err != nil { return }
@@ -85,7 +85,7 @@ func multiInstancesURL(regionEndpoint string, action string, instanceIds ...stri
 	return
 }
 
-func startInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
+func StartInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
 	var treq *http.Request
 	rurl, err = multiInstancesURL(regionEndpoint, "StartInstances", instanceIds...)
 	treq, err = http.NewRequest("GET", rurl, nil)
@@ -105,7 +105,7 @@ func startInstances(accessKey string, secretKey string, regionEndpoint string, c
 	return 
 }
 
-func stopInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
+func StopInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
 	var treq *http.Request
 	rurl, err = multiInstancesURL(regionEndpoint, "StopInstances", instanceIds...)
 	treq, err = http.NewRequest("GET", rurl, nil)
@@ -125,7 +125,7 @@ func stopInstances(accessKey string, secretKey string, regionEndpoint string, cl
 	return 
 }
 
-func getInstancesStatus(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter, all bool, instanceIds ...string) (instantStatuses InstantStatuses, err error) {
+func GetInstancesStatus(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter, all bool, instanceIds ...string) (instantStatuses InstantStatuses, err error) {
 	var treq *http.Request
 	rurl, err := multiInstancesURL(regionEndpoint, "DescribeInstanceStatus", instanceIds...)
 	if all {
