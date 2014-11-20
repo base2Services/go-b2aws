@@ -1,4 +1,4 @@
-package awsdashboard
+package b2aws
 
 import (
 		"net/url"

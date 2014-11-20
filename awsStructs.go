@@ -1,4 +1,4 @@
-package awsdashboard
+package b2aws
 
 type RegionInfo struct {
 	RegionName string `xml:"regionName"`
