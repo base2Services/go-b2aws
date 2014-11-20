@@ -87,7 +87,7 @@ func MultiInstancesURL(regionEndpoint string, action string, instanceIds ...stri
 
 func StartInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
 	var treq *http.Request
-	rurl, err = multiInstancesURL(regionEndpoint, "StartInstances", instanceIds...)
+	rurl, err = MultiInstancesURL(regionEndpoint, "StartInstances", instanceIds...)
 	treq, err = http.NewRequest("GET", rurl, nil)
 	if err != nil { return }
 	awscred := awsauth.Credentials{
@@ -107,7 +107,7 @@ func StartInstances(accessKey string, secretKey string, regionEndpoint string, c
 
 func StopInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
 	var treq *http.Request
-	rurl, err = multiInstancesURL(regionEndpoint, "StopInstances", instanceIds...)
+	rurl, err = MultiInstancesURL(regionEndpoint, "StopInstances", instanceIds...)
 	treq, err = http.NewRequest("GET", rurl, nil)
 	if err != nil { return }
 	awscred := awsauth.Credentials{
@@ -127,7 +127,7 @@ func StopInstances(accessKey string, secretKey string, regionEndpoint string, cl
 
 func GetInstancesStatus(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter, all bool, instanceIds ...string) (instantStatuses InstantStatuses, err error) {
 	var treq *http.Request
-	rurl, err := multiInstancesURL(regionEndpoint, "DescribeInstanceStatus", instanceIds...)
+	rurl, err := MultiInstancesURL(regionEndpoint, "DescribeInstanceStatus", instanceIds...)
 	if all {
 		rurl = rurl+"&IncludeAllInstances=true"
 	}
