@@ -50,7 +50,7 @@ func GetS3Object(accessKey string, secretKey string, bucketObjectUrl string, cli
 	return 
 }
 
-func GetInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter) (instanceList []Instance, err error) {
+func GetInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client) (instanceList []Instance, err error) {
 	instanceList = []Instance{}
 	var treq *http.Request
 	treq, err = http.NewRequest("GET", "https://"+regionEndpoint+"/?Action=DescribeInstances&Version=2014-06-15", nil)
@@ -85,7 +85,7 @@ func MultiInstancesURL(regionEndpoint string, action string, instanceIds ...stri
 	return
 }
 
-func StartInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
+func StartInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, instanceIds ...string) (instances StartInstance, err error, rurl string) {
 	var treq *http.Request
 	rurl, err = MultiInstancesURL(regionEndpoint, "StartInstances", instanceIds...)
 	treq, err = http.NewRequest("GET", rurl, nil)
@@ -105,7 +105,7 @@ func StartInstances(accessKey string, secretKey string, regionEndpoint string, c
 	return 
 }
 
-func StopInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, _ http.ResponseWriter, instanceIds ...string) (instances StartInstance, err error, rurl string) {
+func StopInstances(accessKey string, secretKey string, regionEndpoint string, client *http.Client, instanceIds ...string) (instances StartInstance, err error, rurl string) {
 	var treq *http.Request
 	rurl, err = MultiInstancesURL(regionEndpoint, "StopInstances", instanceIds...)
 	treq, err = http.NewRequest("GET", rurl, nil)
@@ -125,7 +125,7 @@ func StopInstances(accessKey string, secretKey string, regionEndpoint string, cl
 	return 
 }
 
-func GetInstancesStatus(accessKey string, secretKey string, regionEndpoint string, client *http.Client, w http.ResponseWriter, all bool, instanceIds ...string) (instantStatuses InstantStatuses, err error) {
+func GetInstancesStatus(accessKey string, secretKey string, regionEndpoint string, client *http.Client, all bool, instanceIds ...string) (instantStatuses InstantStatuses, err error) {
 	var treq *http.Request
 	rurl, err := MultiInstancesURL(regionEndpoint, "DescribeInstanceStatus", instanceIds...)
 	if all {
