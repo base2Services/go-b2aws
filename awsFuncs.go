@@ -161,7 +161,6 @@ func GetRDSSnapshots(accessKey string, secretKey string, regionEndpoint string, 
 	if err != nil  { return }
 	dbSnapshots = DescribeDBSnapshotsResponse {}
 	body,_ := ioutil.ReadAll(tresp.Body)
-	log.Printf("%s", body)
 	if err = xml.Unmarshal(body, &dbSnapshots); err != nil  { return }
 	return
 }
