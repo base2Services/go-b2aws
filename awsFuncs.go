@@ -7,6 +7,7 @@ import (
 		"io/ioutil"
 		"encoding/xml"
 		"strconv"
+		"log"
 )
 
 func GetRegions(accessKey string, secretKey string, client *http.Client) (regionMap map[string]string, err error) {
@@ -143,6 +144,25 @@ func GetInstancesStatus(accessKey string, secretKey string, regionEndpoint strin
 	instantStatuses = InstantStatuses{}
 	body,_ := ioutil.ReadAll(tresp.Body)
 	if err = xml.Unmarshal(body, &instantStatuses); err != nil  { return }
+	return
+}
+
+func GetRDSSnapshots(accessKey string, secretKey string, regionEndpoint string, client *http.Client, params string) (dbSnapshots DescribeDBSnapshotsResponse, err error) {
+	var treq *http.Request
+	treq, err = http.NewRequest("GET", "https://"+regionEndpoint+"/?Action=DescribeDBSnapshots&Version=2014-09-01", nil)
+	if err != nil  { return dbSnapshots, err }
+	awscred := awsauth.Credentials{
+		AccessKeyID: accessKey,
+		SecretAccessKey: secretKey,
+	}
+	awsauth.Sign(treq, awscred)
+	var tresp *http.Response
+	tresp, err = client.Do(treq)
+	if err != nil  { return }
+	dbSnapshots = DescribeDBSnapshotsResponse {}
+	body,_ := ioutil.ReadAll(tresp.Body)
+	log.Printf("%s", body)
+	if err = xml.Unmarshal(body, &dbSnapshots); err != nil  { return }
 	return
 }
 

@@ -1,5 +1,9 @@
 package b2aws
 
+import (
+		"time"
+	)
+
 type RegionInfo struct {
 	RegionName string `xml:"regionName"`
 	RegionEndpoint string `xml:"regionEndpoint"`
@@ -59,5 +63,28 @@ type Instances struct {
 type StartInstance struct {
 	AwsRequest
 	Instances []Instance `xml:"instancesSet>item"`
+}
+
+type DescribeDBSnapshotsResponse struct {
+	RequestId string `xml:"ResponseMetadata>RequestId"`
+	DescribeDBSnapshotResult []DBSnapshot `xml:"DescribeDBSnapshotsResult>DBSnapshots>DBSnapshot"`
+}
+
+type DBSnapshot struct {
+	Port int
+	OptionGroupName string
+	Engine string
+	Status string
+	SnapshotType string
+	LicenseModel string
+	EngineVersion string
+	DBInstanceIdentifier string
+	DBSnapshotIdentifier string
+	SnapshotCreateTime time.Time
+	AvailabilityZone string
+	InstanceCreateTime time.Time
+	PercentProgress int
+	AllocatedStorage int
+	MasterUsername string
 }
 
