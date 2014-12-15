@@ -7,7 +7,6 @@ import (
 		"io/ioutil"
 		"encoding/xml"
 		"strconv"
-		"log"
 )
 
 func GetRegions(accessKey string, secretKey string, client *http.Client) (regionMap map[string]string, err error) {
