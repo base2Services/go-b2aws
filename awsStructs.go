@@ -67,7 +67,7 @@ type StartInstance struct {
 
 type DescribeDBSnapshotsResponse struct {
 	RequestId string `xml:"ResponseMetadata>RequestId"`
-	DescribeDBSnapshotResult []DBSnapshot `xml:"DescribeDBSnapshotsResult>DBSnapshots>DBSnapshot"`
+	DBSnapshots []DBSnapshot `xml:"DescribeDBSnapshotsResult>DBSnapshots>DBSnapshot"`
 }
 
 type DBSnapshot struct {
