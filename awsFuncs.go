@@ -148,7 +148,7 @@ func GetInstancesStatus(accessKey string, secretKey string, regionEndpoint strin
 
 func GetRDSSnapshots(accessKey string, secretKey string, regionEndpoint string, client *http.Client, params string) (dbSnapshots DescribeDBSnapshotsResponse, err error) {
 	var treq *http.Request
-	treq, err = http.NewRequest("GET", "https://"+regionEndpoint+"/?Action=DescribeDBSnapshots&Version=2014-09-01", nil)
+	treq, err = http.NewRequest("GET", "https://"+regionEndpoint+"/?Action=DescribeDBSnapshots&Version=2014-09-01" + params, nil)
 	if err != nil  { return dbSnapshots, err }
 	awscred := awsauth.Credentials{
 		AccessKeyID: accessKey,
